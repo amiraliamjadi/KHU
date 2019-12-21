@@ -81,11 +81,7 @@ public class MainMenuFragment extends Fragment
         progressBar.setVisibility(View.VISIBLE);
 
         GroupsController groupsController = new GroupsController(groupsCallback);
-        groupsController.start(
-
-                "bearer " + MyPreferenceManager.getInstance(getActivity()).getAccessToken()
-
-        );
+        groupsController.start();
     }
 
     private void findViews(View view)

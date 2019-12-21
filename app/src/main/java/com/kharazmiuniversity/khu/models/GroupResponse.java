@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GroupResponse
 {
-    @SerializedName("results")
+    @SerializedName("records")
     List<Group> groups;
 
 

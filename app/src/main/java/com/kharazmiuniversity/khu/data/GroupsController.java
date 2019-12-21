@@ -16,7 +16,7 @@ public class GroupsController
         this.groupsCallback = groupsCallback;
     }
 
-    public void start(String authorization)
+    public void start()
     {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(KhuAPI.BASE_URL)
@@ -24,7 +24,7 @@ public class GroupsController
                 .build();
 
         KhuAPI khuAPI = retrofit.create(KhuAPI.class);
-        Call<GroupResponse> call = khuAPI.getGroups(authorization);
+        Call<GroupResponse> call = khuAPI.getGroups();
         call.enqueue(new Callback<GroupResponse>() {
             @Override
             public void onResponse(Call<GroupResponse> call, Response<GroupResponse> response)
@@ -32,7 +32,8 @@ public class GroupsController
                 if (response.isSuccessful())
                 {
                     groupsCallback.onResponse(response.body().getGroups());
-                } else {
+                }
+                else {
 
                 }
             }

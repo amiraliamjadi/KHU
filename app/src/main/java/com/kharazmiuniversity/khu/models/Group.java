@@ -4,10 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Group
 {
-    @SerializedName("_id")
+    @SerializedName("id")
     private String id;
 
-    private  String name;
+    @SerializedName("name")
+    private String name;
 
 
     public Group()

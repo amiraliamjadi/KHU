@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,9 @@ import android.widget.Toast;
 
 import com.kharazmiuniversity.khu.data.KhuAPI;
 import com.kharazmiuniversity.khu.data.LoginUserController;
-import com.kharazmiuniversity.khu.models.TokenResponse;
+import com.kharazmiuniversity.khu.models.ErrorResponse;
+import com.kharazmiuniversity.khu.models.Token;
+import com.kharazmiuniversity.khu.models.User;
 
 public class LoginFragment extends Fragment
 {
@@ -50,15 +53,51 @@ public class LoginFragment extends Fragment
     private void loginUser()
     {
         LoginUserController loginUserController = new LoginUserController(loginUserCallback);
-        loginUserController.start(
+        User user = new User();
 
-                username.getText().toString(),
-                password.getText().toString()
+        user.setUsername(username.getText().toString());
+        user.setPassword(password.getText().toString());
 
-        );
+        loginUserController.start(user);
     }
 
+
     KhuAPI.LoginUserCallback loginUserCallback = new KhuAPI.LoginUserCallback() {
+        @Override
+        public void onResponse(boolean successful , ErrorResponse errorResponse, Token token )
+        {
+            if (successful)
+            {
+                Toast.makeText(getActivity(), token.getLoginMessage() ,Toast.LENGTH_SHORT).show();
+
+                MyPreferenceManager.getInstance(getActivity()).putUsername(username.getText().toString());
+                MyPreferenceManager.getInstance(getActivity()).putAccessToken(token.getJwt());
+
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
+
+                        new Intent("login_finished")
+
+                );
+
+
+            }
+            else {
+
+                Toast.makeText(getActivity(),  errorResponse.getError() ,Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        @Override
+        public void onFailure(String cause)
+        {
+            Toast.makeText(getActivity(),cause,Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
+
+   /* KhuAPI.LoginUserCallback loginUserCallback = new KhuAPI.LoginUserCallback() {
         @Override
         public void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse)
         {
@@ -84,7 +123,7 @@ public class LoginFragment extends Fragment
 
         }
     };
-
+*/
 
     private void findViews(View view)
     {
