@@ -125,6 +125,7 @@ public class GroupChatActivity extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject();
                     try
                     {
+
                         jsonObject.put("message", text);
                         jsonObject.put("byServer",true);
 
