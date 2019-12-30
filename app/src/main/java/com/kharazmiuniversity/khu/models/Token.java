@@ -8,6 +8,10 @@ public class Token
     @SerializedName("message")
     private String loginMessage;
 
+    @SerializedName("proffessor")
+    private String proffessor;
+
+
     @SerializedName("jwt")
     private String jwt;
 
@@ -30,4 +34,28 @@ public class Token
     public void setJwt(String jwt) {
         this.jwt = jwt;
     }
+
+    public boolean getProffessor() {
+        boolean proffessor;
+        if (this.proffessor.equals("0"))
+        {
+            proffessor = false;
+        }
+        else {
+            proffessor = true;
+        }
+        return proffessor;
+    }
+
+    public void setProffessor(boolean proffessor) {
+        if (!proffessor)
+        {
+            this.proffessor = "0";
+        }
+        else {
+            this.proffessor = "1";
+        }
+
+    }
+
 }

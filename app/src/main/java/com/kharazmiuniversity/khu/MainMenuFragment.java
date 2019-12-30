@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.kharazmiuniversity.khu.data.GroupsController;
+import com.kharazmiuniversity.khu.data.ObjectsController;
 import com.kharazmiuniversity.khu.data.KhuAPI;
+import com.kharazmiuniversity.khu.models.Channel;
+import com.kharazmiuniversity.khu.models.GetObject;
 import com.kharazmiuniversity.khu.models.Group;
 
 import java.util.ArrayList;
@@ -25,15 +27,15 @@ import java.util.List;
 public class MainMenuFragment extends Fragment
 {
 
-   private RecyclerView groups;
+   private RecyclerView objects;
    private List<Group> groupList = new ArrayList<>();
    private GroupAdapter groupAdapter;
    private ProgressBar progressBar;
 
     // marboot be gereftan e groups ha
-    KhuAPI.getGroupsCallback groupsCallback = new KhuAPI.getGroupsCallback() {
+    KhuAPI.getObjectsCallback objectsCallback = new KhuAPI.getObjectsCallback() {
         @Override
-        public void onResponse(List<Group> inputList)
+        public void onResponse(List<Group> inputListGroup , List<Channel> inputListChannel)
         {
 
             if (progressBar.isShown())
@@ -43,14 +45,14 @@ public class MainMenuFragment extends Fragment
 
             groupList.clear();
 
-            Collections.sort(inputList, new Comparator<Group>() {
+            Collections.sort(inputListGroup, new Comparator<Group>() {
                 @Override
                 public int compare(Group x, Group y) {
                     return x.getName().compareTo(y.getName());
                 }
             });
 
-            groupList.addAll(inputList);
+            groupList.addAll(inputListGroup);
             groupAdapter.notifyDataSetChanged();
 
         }
@@ -76,25 +78,30 @@ public class MainMenuFragment extends Fragment
 
 
         findViews(view);
-        initGroupList();
+        initObjectList();
 
         progressBar.setVisibility(View.VISIBLE);
 
-        GroupsController groupsController = new GroupsController(groupsCallback);
-        groupsController.start();
+        GetObject getObject = new GetObject();
+        String username = MyPreferenceManager.getInstance(getActivity()).getUsername();
+        getObject.setUsername(username);
+
+        ObjectsController objectsController = new ObjectsController(objectsCallback);
+        objectsController.start(getObject);
+
     }
 
     private void findViews(View view)
     {
-        groups = view.findViewById(R.id.groups);
+        objects = view.findViewById(R.id.objects);
         progressBar = view.findViewById(R.id.menu_progress_bar);
     }
 
-    private void initGroupList()
+    private void initObjectList()
     {
         groupAdapter = new GroupAdapter(groupList , getContext());
-        groups.setLayoutManager(new LinearLayoutManager(getActivity()));
-        groups.setAdapter(groupAdapter);
+        objects.setLayoutManager(new LinearLayoutManager(getActivity()));
+        objects.setAdapter(groupAdapter);
     }
 
 }

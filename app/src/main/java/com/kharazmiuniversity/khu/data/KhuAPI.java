@@ -1,8 +1,10 @@
 package com.kharazmiuniversity.khu.data;
 
+import com.kharazmiuniversity.khu.models.Channel;
 import com.kharazmiuniversity.khu.models.ErrorResponse;
+import com.kharazmiuniversity.khu.models.GetObject;
 import com.kharazmiuniversity.khu.models.Group;
-import com.kharazmiuniversity.khu.models.GroupResponse;
+import com.kharazmiuniversity.khu.models.ObjectsResponse;
 import com.kharazmiuniversity.khu.models.Token;
 import com.kharazmiuniversity.khu.models.User;
 
@@ -10,11 +12,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface KhuAPI
@@ -31,8 +28,9 @@ public interface KhuAPI
 
 
     @POST("rest-api-authentication-example/api/get_groups.php")
-    Call<GroupResponse> getGroups(
+    Call<ObjectsResponse> getObjectsMethod(
 
+            @Body GetObject getObject
 
     );
 
@@ -45,9 +43,9 @@ public interface KhuAPI
         void onFailure(String cause);
     }
 
-    interface getGroupsCallback
+    interface getObjectsCallback
     {
-        void onResponse(List<Group> groupList);
+        void onResponse(List<Group> groupList, List<Channel> channelList);
 
         void onFailure( String cause);
 

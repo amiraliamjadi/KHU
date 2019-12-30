@@ -72,6 +72,7 @@ public class LoginFragment extends Fragment
 
                 MyPreferenceManager.getInstance(getActivity()).putUsername(username.getText().toString());
                 MyPreferenceManager.getInstance(getActivity()).putAccessToken(token.getJwt());
+                MyPreferenceManager.getInstance(getActivity()).putProffessor(token.getProffessor());
 
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
 

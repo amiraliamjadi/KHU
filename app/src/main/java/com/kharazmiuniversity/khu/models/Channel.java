@@ -2,37 +2,32 @@ package com.kharazmiuniversity.khu.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Group
+public class Channel
 {
-    @SerializedName("group_id")
+    @SerializedName("channel_id")
     private String id;
 
-    @SerializedName("group_name")
+    @SerializedName("channel_name")
     private String name;
 
 
-    public Group()
-    {
+    public Channel() {
 
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 }

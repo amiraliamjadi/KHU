@@ -198,7 +198,6 @@ public class GroupChatActivity extends AppCompatActivity
             {
                 if (item.getBoolean("byServer"))
                 {
-                    System.out.println("a");
                     recievedMessage.setVisibility(View.VISIBLE);
                     recievedMessage.setText(item.getString("message"));
                     sentMessage.setVisibility(View.INVISIBLE);

@@ -75,6 +75,17 @@ public class MyPreferenceManager
         editor.apply();
     }
 
+    public boolean getProffessor()
+    {
+        return sharedPreferences.getBoolean("proffessor",false);
+    }
+
+    public void putProffessor(boolean proffessor)
+    {
+        editor.putBoolean("proffessor", proffessor);
+        editor.apply();
+    }
+
 
 
     public void clearEverythings()
