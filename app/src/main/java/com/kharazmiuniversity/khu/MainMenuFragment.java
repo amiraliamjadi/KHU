@@ -29,6 +29,7 @@ public class MainMenuFragment extends Fragment
 
    private RecyclerView objects;
    private List<Group> groupList = new ArrayList<>();
+   private List<Channel> channelList = new ArrayList<>();
    private GroupAdapter groupAdapter;
    private ProgressBar progressBar;
 
@@ -44,6 +45,7 @@ public class MainMenuFragment extends Fragment
             }
 
             groupList.clear();
+            channelList.clear();
 
             Collections.sort(inputListGroup, new Comparator<Group>() {
                 @Override
@@ -52,7 +54,15 @@ public class MainMenuFragment extends Fragment
                 }
             });
 
+            Collections.sort(inputListChannel, new Comparator<Channel>() {
+                @Override
+                public int compare(Channel x, Channel y) {
+                    return x.getName().compareTo(y.getName());
+                }
+            });
+
             groupList.addAll(inputListGroup);
+            channelList.addAll(inputListChannel);
             groupAdapter.notifyDataSetChanged();
 
         }
@@ -99,7 +109,7 @@ public class MainMenuFragment extends Fragment
 
     private void initObjectList()
     {
-        groupAdapter = new GroupAdapter(groupList , getContext());
+        groupAdapter = new GroupAdapter(groupList ,channelList, getContext());
         objects.setLayoutManager(new LinearLayoutManager(getActivity()));
         objects.setAdapter(groupAdapter);
     }

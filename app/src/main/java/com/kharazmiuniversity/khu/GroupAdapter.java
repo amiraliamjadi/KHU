@@ -11,19 +11,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.kharazmiuniversity.khu.models.Channel;
 import com.kharazmiuniversity.khu.models.Group;
 
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>
 {
-    List<Group> items;
+    List<Group> groupitems;
+    List<Channel> channelitems;
     private Context mContext;
 
+    public static String objectId;
 
-    public GroupAdapter(List<Group> items, Context context)
+
+
+    public GroupAdapter(List<Group> groupitems, List<Channel> channelitems ,Context context)
     {
-        this.items = items;
+        this.groupitems = groupitems;
+        this.channelitems = channelitems;
         mContext = context;
     }
 
@@ -38,29 +44,83 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position)
     {
-        holder.name.setText(items.get(position).getName());
+
+        if ( position < groupitems.size())
+        {
+            holder.name.setText(groupitems.get(position).getName());
+            holder.id =  groupitems.get(position).getId();
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    objectId = holder.id;
+
+
+                    Intent groupChatIntent = new Intent(mContext,GroupChatActivity.class);
+
+                    mContext.startActivity(groupChatIntent);
+
+                }
+            });
+
+
+        }
+        else {
+            holder.name.setText(channelitems.get(position - groupitems.size()).getName());
+            holder.id =  channelitems.get(position - groupitems.size()).getId();
+
+
+            if (MyPreferenceManager.getInstance(mContext).getProffessor())
             {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
 
-                Intent groupChatIntent = new Intent(mContext,GroupChatActivity.class);
+                        objectId = holder.id;
 
-                mContext.startActivity(groupChatIntent);
+                        Intent channelAdminIntent = new Intent(mContext,ChannelAdminActivity.class);
 
+                        mContext.startActivity(channelAdminIntent);
+
+                    }
+                });
             }
-        });
+            else {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+
+                        objectId = holder.id;
+
+                        Intent channelIntent = new Intent(mContext,ChannelActivity.class);
+
+                        mContext.startActivity(channelIntent);
+
+                    }
+                });
+            }
+
+
+
+
+        }
+
+
+
+
 
     }
 
     @Override
     public int getItemCount()
     {
-        return items.size();
+        return groupitems.size() + channelitems.size();
     }
 
 
@@ -71,6 +131,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>
     {
 
         public TextView name;
+        public String id;
 
         public ViewHolder(@NonNull final View itemView)
         {

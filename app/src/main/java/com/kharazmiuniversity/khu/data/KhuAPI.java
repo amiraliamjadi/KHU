@@ -20,14 +20,14 @@ public interface KhuAPI
 
 
 
-    @POST("rest-api-authentication-example/api/login.php")
+    @POST("khu_mobile_api/api/login.php")
     Call<Token> loginUser(
 
             @Body User user
     );
 
 
-    @POST("rest-api-authentication-example/api/get_groups.php")
+    @POST("khu_mobile_api/api/get_groups.php")
     Call<ObjectsResponse> getObjectsMethod(
 
             @Body GetObject getObject

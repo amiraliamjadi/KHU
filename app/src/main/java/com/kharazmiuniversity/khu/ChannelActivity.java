@@ -1,6 +1,5 @@
 package com.kharazmiuniversity.khu;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +10,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.JsonIOException;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -26,13 +23,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-import okio.ByteString;
 
-public class GroupChatActivity extends AppCompatActivity
+public class ChannelActivity extends AppCompatActivity
 {
-
     private WebSocket webSocket;
-    private MessageAdapter messageAdapter;
+    private ChannelActivity.MessageAdapter messageAdapter;
 
 
     @Override
@@ -45,22 +40,21 @@ public class GroupChatActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_chat);
+        setContentView(R.layout.activity_channel);
 
 
-        ListView messageList = findViewById(R.id.message_list);
-        final EditText messageBox = findViewById(R.id.message_box);
-        TextView send = findViewById(R.id.send);
+        ListView messageList = findViewById(R.id.message_list_channel);
 
 
         instantiateWebsocket();
 
+
         JSONObject userConnection = new JSONObject();
         try {
             userConnection.put("authorization_status",false);
-            userConnection.put("group_id_athorize",GroupAdapter.objectId);
-            userConnection.put("channel_id_athorize",0);
-            userConnection.put("username_athorize",MyPreferenceManager.getInstance(GroupChatActivity.this).getUsername());
+            userConnection.put("channel_id_athorize",GroupAdapter.objectId);
+            userConnection.put("group_id_athorize",0);
+            userConnection.put("username_athorize",MyPreferenceManager.getInstance(ChannelActivity.this).getUsername());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -68,51 +62,12 @@ public class GroupChatActivity extends AppCompatActivity
         webSocket.send(userConnection.toString());
 
 
-        messageAdapter = new MessageAdapter();
+
+
+        messageAdapter = new ChannelActivity.MessageAdapter();
         messageList.setAdapter(messageAdapter);
 
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                String message = messageBox.getText().toString();
-                JSONObject data = new JSONObject();
 
-                try {
-                    data.put("authorization_status",true);
-                    data.put("username",MyPreferenceManager.getInstance(GroupChatActivity.this).getUsername());
-                    data.put("message",message);
-                    data.put("object_id", GroupAdapter.objectId);
-                    data.put("channel_status",false);
-                    data.put("group_status",true);
-                }catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-                if (!message.isEmpty())
-                {
-                    webSocket.send(data.toString());
-                    messageBox.setText("");
-
-                    JSONObject jsonObject = new JSONObject();
-                    try
-                    {
-                        jsonObject.put("message",message);
-                        jsonObject.put("byServer",false);
-
-                        messageAdapter.addItem(jsonObject);
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }
-
-            }
-        });
 
     }
 
@@ -120,23 +75,17 @@ public class GroupChatActivity extends AppCompatActivity
     {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url("ws://10.0.2.2:8080").build();
-        SocketListener socketListener = new SocketListener(this);
+        ChannelActivity.SocketListener socketListener = new ChannelActivity.SocketListener(this);
         webSocket = client.newWebSocket(request,socketListener);
     }
 
     public class SocketListener extends WebSocketListener
     {
-        public GroupChatActivity groupChatActivity;
+        public ChannelActivity channelActivity;
 
-        public SocketListener(GroupChatActivity groupChatActivity)
+        public SocketListener(ChannelActivity channelActivity)
         {
-            this.groupChatActivity = groupChatActivity;
-        }
-
-
-        @Override
-        public void onMessage(@NotNull WebSocket webSocket, @NotNull ByteString bytes) {
-            super.onMessage(webSocket, bytes);
+            this.channelActivity = channelActivity;
         }
 
         @Override
@@ -159,7 +108,7 @@ public class GroupChatActivity extends AppCompatActivity
             super.onMessage(webSocket, text);
 
 
-            groupChatActivity.runOnUiThread(new Runnable() {
+            channelActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -191,7 +140,7 @@ public class GroupChatActivity extends AppCompatActivity
         public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
             super.onOpen(webSocket, response);
 
-            groupChatActivity.runOnUiThread(new Runnable() {
+            channelActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(),"Connection established",Toast.LENGTH_SHORT).show();
@@ -268,6 +217,4 @@ public class GroupChatActivity extends AppCompatActivity
 
 
     }
-
-
 }

@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".GroupChatActivity">
+        <activity android:name=".GroupChatActivity"/>
+        <activity android:name=".ChannelAdminActivity"/>
+        <activity android:name=".ChannelActivity">
 
         </activity>
         <activity android:name=".MainActivity" >
