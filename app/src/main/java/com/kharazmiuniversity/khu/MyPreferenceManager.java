@@ -64,6 +64,19 @@ public class MyPreferenceManager
     }
 
 
+
+    public String getUser_name()
+    {
+        return sharedPreferences.getString("user_name", null);
+    }
+
+    public void putUser_name(String user_name)
+    {
+        editor.putString("user_name", user_name);
+        editor.apply();
+    }
+
+
     public String getAccessToken()
     {
         return sharedPreferences.getString("access_token", null);

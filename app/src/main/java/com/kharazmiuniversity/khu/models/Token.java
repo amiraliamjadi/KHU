@@ -11,12 +11,23 @@ public class Token
     @SerializedName("proffessor")
     private String proffessor;
 
+    @SerializedName("user_name")
+    private String user_name;
+
 
     @SerializedName("jwt")
     private String jwt;
 
 
     public Token() {
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getLoginMessage() {

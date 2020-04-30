@@ -166,7 +166,19 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>
 
                         objectId = holder.id;
 
-                        Intent channelIntent = new Intent(mContext,ChannelActivity.class);
+
+
+                        ChannelMessageController channelMessageController = new ChannelMessageController(channelMessageCallback);
+                        RequestChannelMessage requestChannelMessage = new RequestChannelMessage();
+
+                        requestChannelMessage.setChannelId(objectId);
+
+                        channelMessageController.start(requestChannelMessage);
+
+
+
+
+                        Intent channelIntent = new Intent(mContext,ChannelActivity2.class);
 
                         mContext.startActivity(channelIntent);
 

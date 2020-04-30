@@ -26,6 +26,17 @@ public class ChannelMessageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
+
+
+    public void insertSent(ChannelMessage channelMessage)
+    {
+        mMessageList.add(channelMessage);
+        notifyItemInserted(mMessageList.size());
+    }
+
+
+
+
     @Override
     public int getItemCount() {
 

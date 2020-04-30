@@ -29,6 +29,15 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
+
+    public void insertSent(GroupMessage groupMessage)
+    {
+        mMessageList.add(groupMessage);
+        notifyItemInserted(mMessageList.size());
+    }
+
+
+
     @Override
     public int getItemCount() {
 
