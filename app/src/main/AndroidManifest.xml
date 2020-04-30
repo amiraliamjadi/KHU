@@ -14,7 +14,9 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".GroupChatActivity"/>
+        <activity android:name=".GroupChatActivity2"/>
         <activity android:name=".ChannelAdminActivity"/>
+        <activity android:name=".ChannelAdminActivity2"/>
         <activity android:name=".ChannelActivity">
 
         </activity>

@@ -65,6 +65,8 @@ public class MainMenuFragment extends Fragment
             channelList.addAll(inputListChannel);
             groupAdapter.notifyDataSetChanged();
 
+            System.out.println(objects);
+
         }
 
         @Override
@@ -90,6 +92,8 @@ public class MainMenuFragment extends Fragment
         findViews(view);
         initObjectList();
 
+
+
         progressBar.setVisibility(View.VISIBLE);
 
         GetObject getObject = new GetObject();
@@ -112,6 +116,8 @@ public class MainMenuFragment extends Fragment
         groupAdapter = new GroupAdapter(groupList ,channelList, getContext());
         objects.setLayoutManager(new LinearLayoutManager(getActivity()));
         objects.setAdapter(groupAdapter);
+
+
     }
 
 }

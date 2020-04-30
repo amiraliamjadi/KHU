@@ -1,10 +1,16 @@
 package com.kharazmiuniversity.khu.data;
 
 import com.kharazmiuniversity.khu.models.Channel;
+import com.kharazmiuniversity.khu.models.ChannelMessage;
+import com.kharazmiuniversity.khu.models.ChannelMessageResponse;
 import com.kharazmiuniversity.khu.models.ErrorResponse;
 import com.kharazmiuniversity.khu.models.GetObject;
 import com.kharazmiuniversity.khu.models.Group;
+import com.kharazmiuniversity.khu.models.GroupMessage;
+import com.kharazmiuniversity.khu.models.GroupMessageResponse;
 import com.kharazmiuniversity.khu.models.ObjectsResponse;
+import com.kharazmiuniversity.khu.models.RequestChannelMessage;
+import com.kharazmiuniversity.khu.models.RequestGroupMessage;
 import com.kharazmiuniversity.khu.models.Token;
 import com.kharazmiuniversity.khu.models.User;
 
@@ -20,20 +26,34 @@ public interface KhuAPI
 
 
 
-    @POST("khu_mobile_api/api/login.php")
+    @POST("khu_backend-master/api/login.php")
     Call<Token> loginUser(
 
             @Body User user
     );
 
 
-    @POST("khu_mobile_api/api/get_groups.php")
+    @POST("khu_backend-master/api/get_groups.php")
     Call<ObjectsResponse> getObjectsMethod(
 
             @Body GetObject getObject
 
     );
 
+    @POST("khu_backend-master/api/get_groupmessages.php")
+    Call<GroupMessageResponse> groupMessageMethod(
+
+            @Body RequestGroupMessage getGroupMessage
+
+    );
+
+
+    @POST("khu_backend-master/api/get_channelmessages.php")
+    Call<ChannelMessageResponse> channelMessageMethod(
+
+            @Body RequestChannelMessage getChannelMessage
+
+    );
 
 
     interface LoginUserCallback
@@ -50,5 +70,20 @@ public interface KhuAPI
         void onFailure( String cause);
 
     }
+
+    interface GroupMessageCallback
+    {
+        void onResponse(List<GroupMessage> groupMessageList);
+
+        void onFailure( String cause);
+    }
+
+    interface ChannelMessageCallback
+    {
+        void onResponse(List<ChannelMessage> channelMessageList);
+
+        void onFailure( String cause);
+    }
+
 
 }
